@@ -8,8 +8,8 @@ import data from "../../utils/data";
 import { AppState } from "../../utils/Store";
 
 const ProductScreen = () => {
-  // eslint-disable-next-line no-unused-vars
   const { state, dispatch } = AppState();
+  const router = useRouter();
   const { query } = useRouter();
   const { slug } = query;
   const product = data.products.find((x) => {
@@ -27,7 +27,7 @@ const ProductScreen = () => {
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
     if (product.countInStock < quantity) {
-      toast("Product is out of stock", {
+      toast("Product is out of stock.", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -36,10 +36,12 @@ const ProductScreen = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        type: 'error'
+        type: "error",
       });
+      return;
     } else {
       dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+      router.push("/cart");
     }
   };
 
