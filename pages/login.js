@@ -1,21 +1,33 @@
 import Link from "next/link";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Layout from "../components/Layout";
 import { getError } from "../utils/error";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const [hidden, setHidden] = useState(true);
   const [hiddenConfirm, setHiddenConfirm] = useState(true);
 
+  const { data: session } = useSession();
+
+  const router = useRouter();
+  const { redirect } = router.query;
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push(redirect || "/");
+    }
+  }, [router, session, redirect]);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
-    watch
+    watch,
   } = useForm();
   const password = useRef({});
   password.current = watch("password", "");
@@ -65,7 +77,7 @@ const Login = () => {
           <label htmlFor="password">Password</label>
           <input
             type={hidden ? "password" : "text"}
-            ref={register("password", {
+            {...register("password", {
               required: "Please enter password",
               minLength: { value: 6, message: "password is more than 5 chars" },
             })}
@@ -94,8 +106,8 @@ const Login = () => {
           <input
             type={hiddenConfirm ? "password" : "text"}
             {...register("confirmPassword", {
-              validate: value =>
-              value === password.current || "The passwords do not match"
+              validate: (value) =>
+                value === password.current || "The passwords do not match",
             })}
             id="confirm"
             className="w-full"
