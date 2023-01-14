@@ -4,29 +4,30 @@ import { useRouter } from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 import Layout from "../../components/Layout";
-import data from "../../utils/data";
+import db from "../../utils/db";
 import { AppState } from "../../utils/Store";
+import Product from "../../models/Product";
+import axios from "axios";
 
-const ProductScreen = () => {
+const ProductScreen = (props) => {
+  const { product } = props;
   const { state, dispatch } = AppState();
   const router = useRouter();
-  const { query } = useRouter();
-  const { slug } = query;
-  const product = data.products.find((x) => {
-    return x.slug === slug;
-  });
 
   if (!product) {
-    return <div>Product Not Found</div>;
+    return <Layout title="Produt Not Found">Product Not Found</Layout>;
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const existItem = state.cart.cartItems.find((item) => {
       return item.slug === product.slug;
     });
+
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    if (product.countInStock < quantity) {
+    const { data } = await axios.get(`/api/products/${product._id}`);
+
+    if (data.countInStock < quantity) {
       toast("Product is out of stock.", {
         position: "bottom-right",
         autoClose: 5000,
@@ -48,7 +49,9 @@ const ProductScreen = () => {
   return (
     <Layout title={product.name}>
       <div className="py-2 mx-6">
-        <Link href="/">Back to home</Link>
+        <Link href="/" className="hover:underline">
+          Back to home
+        </Link>
       </div>
       <div className="grid md:grid-cols-4 md:gap-3 mx-6">
         <div className="image-container">
@@ -100,3 +103,17 @@ const ProductScreen = () => {
 };
 
 export default ProductScreen;
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: product ? db.convertDocToObj(product) : null,
+    },
+  };
+}
