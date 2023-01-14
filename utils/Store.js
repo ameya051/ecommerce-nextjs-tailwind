@@ -43,6 +43,20 @@ function reducer(state, action) {
         },
       };
     }
+
+    case "SAVE_SHIPPING_ADDRESS": {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress: {
+            ...state.cart.shippingAddress,
+            ...action.payload,
+          },
+        },
+      };
+    }
+
     default:
       return state;
   }

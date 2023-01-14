@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { getError } from "../utils/error";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/outline";
@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 
 const Login = () => {
   const [hidden, setHidden] = useState(true);
-  const [hiddenConfirm, setHiddenConfirm] = useState(true);
 
   const { data: session } = useSession();
 
@@ -27,10 +26,7 @@ const Login = () => {
     handleSubmit,
     register,
     formState: { errors },
-    watch,
   } = useForm();
-  const password = useRef({});
-  password.current = watch("password", "");
 
   const submitHandler = async ({ email, password }) => {
     try {
@@ -101,36 +97,7 @@ const Login = () => {
             <div className="text-red-500 ">{errors.password.message}</div>
           )}
         </div>
-        <div className="mb-4 relative">
-          <label htmlFor="confirm">Confirm Password</label>
-          <input
-            type={hiddenConfirm ? "password" : "text"}
-            {...register("confirmPassword", {
-              validate: (value) =>
-                value === password.current || "The passwords do not match",
-            })}
-            id="confirm"
-            className="w-full"
-            autoFocus
-          />
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setHiddenConfirm(!hiddenConfirm);
-            }}
-          >
-            {hiddenConfirm ? (
-              <EyeSlashIcon class="h-5 w-5 text-gray-900 absolute top-10 right-3  cursor-pointer" />
-            ) : (
-              <EyeIcon class="h-5 w-5 text-gray-900 absolute top-10 right-3 mb-1 cursor-pointer" />
-            )}
-          </button>
-          {errors.confirmPassword && (
-            <div className="text-red-500 ">
-              {errors.confirmPassword.message}
-            </div>
-          )}
-        </div>
+
         <div className="mb-4">
           <button className="primary-button">Login</button>
         </div>

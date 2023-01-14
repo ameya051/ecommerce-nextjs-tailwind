@@ -23,9 +23,9 @@ const Layout = ({ title, children }) => {
   }, [cart.cartItems]);
 
   const handleLogout = () => {
-    Cookies.remove('cart');
-    dispatch({ type: 'CART_RESET' });
-    signOut({ callbackUrl: '/login' });
+    Cookies.remove("cart");
+    dispatch({ type: "CART_RESET" });
+    signOut({ callbackUrl: "/login" });
   };
 
   return (
@@ -65,13 +65,9 @@ const Layout = ({ title, children }) => {
                         Profile
                       </Link>
                     </Menu.Item>
-                    <Menu.Item
-                      as="div"
-                      className="dropdown-link"
-                      href="/order-history"
-                    >
-                      <Link className="dropdown-link" href="/admin/dashboard">
-                        Admin Dashboard
+                    <Menu.Item>
+                      <Link className="dropdown-link" href="/order-history">
+                        Orders
                       </Link>
                     </Menu.Item>
                     <Menu.Item>
