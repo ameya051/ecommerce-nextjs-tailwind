@@ -88,9 +88,9 @@ const Login = () => {
             }}
           >
             {hidden ? (
-              <EyeSlashIcon class="h-5 w-5 text-gray-900 absolute top-10 right-3  cursor-pointer" />
+              <EyeSlashIcon className="h-5 w-5 text-gray-900 absolute top-10 right-3  cursor-pointer" />
             ) : (
-              <EyeIcon class="h-5 w-5 text-gray-900 absolute top-10 right-3  cursor-pointer" />
+              <EyeIcon className="h-5 w-5 text-gray-900 absolute top-10 right-3  cursor-pointer" />
             )}
           </button>
           {errors.password && (

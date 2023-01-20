@@ -36,7 +36,7 @@ const Layout = ({ title, children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex flex-col justify-between min-h-screen">
+      <div className="flex min-h-screen flex-col justify-between">
         <header className="sticky top-0 z-30 w-full bg-white">
           <nav className="flex h-20 items-center px-4 justify-between shadow-md">
             <Link className="text-xl pl-6 font-semibold" href="/">

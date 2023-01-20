@@ -15,7 +15,10 @@ body {
 }
 
 .card {
-  @apply my-5 block border mx-8 shadow-sm;
+  @apply mb-5 block border border-gray-200 shadow-sm;
+}
+.box{
+  @apply mb-5 block box-border border border-gray-200 shadow-sm;
 }
 
 .primary-button {

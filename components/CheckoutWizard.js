@@ -12,7 +12,7 @@ const CheckoutWizard = ({ activeStep = 0 }) => {
           text-center 
        ${
          index <= activeStep
-           ? "border-black   text-black"
+           ? "border-black   text-black font-bold"
            : "border-gray-400 text-gray-400"
        }
           
