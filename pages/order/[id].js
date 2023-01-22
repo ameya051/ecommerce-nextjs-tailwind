@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Layout from "../../components/Layout";
 import { getError } from "../../utils/error";
+import Link from "next/link";
+import Image from "next/image";
 
 function reducer(state, action) {
   switch (action.Layout) {
@@ -148,10 +150,58 @@ function Order() {
                 </thead>
                 <tbody>
                   {orderItems.map((item) => {
-                    return <tr key={item._id} className="border-b"></tr>;
+                    return (
+                      <tr key={item._id} className="border-b">
+                        <td>
+                          <Link
+                            className="flex items-center"
+                            href={`/product/${item.slug}`}
+                          >
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              width={50}
+                              height={50}
+                            ></Image>
+                            &nbsp;
+                            {item.name}
+                          </Link>
+                        </td>
+                        <td className=" p-5 text-right">{item.quantity}</td>
+                        <td className="p-5 text-right">₹ {item.price}</td>
+                        <td className="p-5 text-right">
+                          ₹ {item.quantity * item.price}
+                        </td>
+                      </tr>
+                    );
                   })}
                 </tbody>
               </table>
+            </div>
+          </div>
+          <div>
+            <div className="card  p-5">
+              <h2 className="mb-2 text-lg">Order Summary</h2>
+              <ul>
+                <li>
+                  <div className="mb-2 flex justify-between">
+                    <div>Items</div>
+                    <div>₹ {itemsPrice}</div>
+                  </div>
+                </li>
+                <li>
+                  <div className="mb-2 flex justify-between">
+                    <div>Shipping</div>
+                    <div>₹ {shippingPrice}</div>
+                  </div>
+                </li>
+                <li>
+                  <div className="mb-2 flex justify-between">
+                    <div>Total</div>
+                    <div>₹ {totalPrice}</div>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
