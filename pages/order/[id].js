@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
-import React, { useReducer } from "react";
+import axios from "axios";
 import Layout from "../../components/Layout";
+import { getError } from "../../utils/error";
 
 function reducer(state, action) {
   switch (action.Layout) {
@@ -42,12 +45,49 @@ function Order() {
   const { query } = useRouter();
   const orderId = query.id;
 
-  // eslint-disable-next-line no-unused-vars
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
+  const [
+    {
+      loading,
+      error,
+      order,
+      successPay,
+      loadingPay,
+      loadingDeliver,
+      successDeliver,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
     loading: true,
     order: {},
     error: "",
   });
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        dispatch({ type: "FETCH_REQUEST" });
+        const { data } = await axios.get(`/api/orders/${orderId}`);
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
+      } catch (error) {
+        dispatch({ type: "FETCH_FAIL", payload: getError(error) });
+      }
+    };
+
+    if (
+      !order._id ||
+      successPay ||
+      successDeliver ||
+      (order._id && order._id !== orderId)
+    ) {
+      fetchOrder();
+      if (successPay) {
+        dispatch({ type: "PAY_RESET" });
+      }
+      if (successDeliver) {
+        dispatch({ type: "DELIVER_RESET" });
+      }
+    }
+  }, [order, orderId, paypalDispatch, successDeliver, successPay]);
 
   return (
     <Layout title={`Order ${orderId}`}>
