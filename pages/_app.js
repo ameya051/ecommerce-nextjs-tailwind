@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { StoreProvider } from "../utils/Store";
 import { SessionProvider, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 export default function App({
   Component,
@@ -12,13 +13,15 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <StoreProvider>
-        {Component.Auth ? (
-          <Auth>
-            <Component {...pageProps} />{" "}
-          </Auth>
-        ) : (
-          <Component {...pageProps} />
-        )}
+        <PayPalScriptProvider deferLoading={true}>
+          {Component.Auth ? (
+            <Auth>
+              <Component {...pageProps} />{" "}
+            </Auth>
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </PayPalScriptProvider>
 
         <ToastContainer position="bottom-right" limit={1} />
       </StoreProvider>
