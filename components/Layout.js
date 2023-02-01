@@ -38,7 +38,7 @@ const Layout = ({ title, children }) => {
       </Head>
       <div className="flex min-h-screen flex-col justify-between">
         <header className="sticky top-0 z-30 w-full bg-white">
-          <nav className="flex h-20 items-center px-24 justify-between shadow-md">
+          <nav className="flex h-20 items-center px-4 md:px-24 justify-between shadow-md">
             <Link className="text-xl  font-semibold" href="/">
               ChkOut
             </Link>
@@ -67,14 +67,16 @@ const Layout = ({ title, children }) => {
                     </Menu.Item>
                     <Menu.Item>
                       <Link className="dropdown-link" href="/order-history">
-                        Orders
+                        Order History
                       </Link>
                     </Menu.Item>
-                    <Menu.Item>
-                      <Link className="dropdown-link" href="/admin/dashboard">
-                        Admin Dashboard
-                      </Link>
-                    </Menu.Item>
+                    {session.user.isAdmin && (
+                      <Menu.Item>
+                        <Link className="dropdown-link" href="/admin/dashboard">
+                          Admin Dashboard
+                        </Link>
+                      </Menu.Item>
+                    )}
                     <Menu.Item>
                       <Link
                         className="dropdown-link"
@@ -94,9 +96,9 @@ const Layout = ({ title, children }) => {
             </div>
           </nav>
         </header>
-        <main className="container m-auto mt-8 px-24">{children}</main>
+        <main className="container m-auto mt-8 px-4 md:px-24">{children}</main>
         <footer className="flex h-20 justify-center items-center shadow-inner">
-        © 2023, By Ameya Shrivastava
+          © 2023, By Ameya Shrivastava
         </footer>
       </div>
     </>
