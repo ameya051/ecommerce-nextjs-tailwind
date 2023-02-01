@@ -6,8 +6,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Open Sans", sans-serif;
-  font-family: "Work Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 * {
@@ -17,7 +16,7 @@ body {
 .card {
   @apply mb-5 block border border-gray-200 shadow-sm;
 }
-.box{
+.box {
   @apply mb-5 block box-border border border-gray-200 shadow-sm;
 }
 

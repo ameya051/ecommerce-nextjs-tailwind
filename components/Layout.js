@@ -38,12 +38,12 @@ const Layout = ({ title, children }) => {
       </Head>
       <div className="flex min-h-screen flex-col justify-between">
         <header className="sticky top-0 z-30 w-full bg-white">
-          <nav className="flex h-20 items-center px-4 justify-between shadow-md">
-            <Link className="text-xl pl-6 font-semibold" href="/">
+          <nav className="flex h-20 items-center px-24 justify-between shadow-md">
+            <Link className="text-xl  font-semibold" href="/">
               ChkOut
             </Link>
             <div>
-              <Link className="p-2" href="/cart">
+              <Link className="p-2 " href="/cart">
                 Cart
                 {cartItemsCount > 0 && (
                   <span className="ml-1 rounded-full bg-slate-800 px-2 py-1 text-xs font-bold text-white">
@@ -87,14 +87,14 @@ const Layout = ({ title, children }) => {
                   </Menu.Items>
                 </Menu>
               ) : (
-                <Link className="p-2" href="/login">
+                <Link className="pl-4" href="/login">
                   Login
                 </Link>
               )}
             </div>
           </nav>
         </header>
-        <main className="container m-auto mt-4 px-4">{children}</main>
+        <main className="container m-auto mt-8 px-24">{children}</main>
         <footer className="flex h-20 justify-center items-center shadow-inner">
         © 2023, By Ameya Shrivastava
         </footer>

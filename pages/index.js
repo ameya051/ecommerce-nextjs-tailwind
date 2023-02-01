@@ -7,7 +7,7 @@ import { AppState } from "../utils/Store";
 import axios from "axios";
 import Link from "next/link";
 import { Carousel } from "react-responsive-carousel";
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function Home({ products, featuredProducts }) {
   const { state, dispatch } = AppState();
@@ -29,16 +29,22 @@ export default function Home({ products, featuredProducts }) {
   return (
     <>
       <Layout title="Home">
-      <Carousel showStatus={false} infiniteLoop showArrows={false} showThumbs={false} autoPlay>
-        {featuredProducts.map((product) => (
-          <div key={product._id}>
-            <Link href={`/product/${product.slug}`} className='flex' passHref>
+        <Carousel
+          showStatus={false}
+          infiniteLoop
+          showArrows={false}
+          showThumbs={false}
+          autoPlay
+        >
+          {featuredProducts.map((product) => (
+            <div key={product._id}>
+              <Link href={`/product/${product.slug}`} className="flex" passHref>
                 <img src={product.banner} alt={product.name} />
-            </Link>
-          </div>
-        ))}
-      </Carousel>
-      <h2 className="text-2xl my-4 text-center">Latest Products</h2>
+              </Link>
+            </div>
+          ))}
+        </Carousel>
+        <h2 className="text-2xl my-4 text-center">Latest Products</h2>
         <div className="grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => {
             return (
