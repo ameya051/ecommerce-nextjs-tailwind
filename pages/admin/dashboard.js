@@ -1,8 +1,29 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useReducer } from "react";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import Layout from "../../components/Layout";
 import getError from "../../utils/error";
+
+Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+  },
+};
 
 function reducer(state, action) {
   switch (action.type) {
@@ -18,7 +39,6 @@ function reducer(state, action) {
 }
 
 export default function Dashboard() {
-  // eslint-disable-next-line no-unused-vars
   const [{ loading, error, summary }, dispatch] = useReducer(reducer, {
     loading: false,
     summary: { salesData: [] },
@@ -37,6 +57,19 @@ export default function Dashboard() {
     };
     fetchData();
   }, []);
+
+  const data = {
+    labels: summary.salesData.map((x) => {
+      return x._id;
+    }),
+    datasets: [
+      {
+        label: "Sales",
+        backgroundColor: "rgba(162, 222, 208, 1)",
+        data: summary.salesData.map((x) => x.totalSales),
+      },
+    ],
+  };
 
   return (
     <Layout title="Admin Dashboard">
@@ -99,6 +132,12 @@ export default function Dashboard() {
                 </div>
               </div>
               <h2 className="text-xl">Sales Report</h2>
+              <Bar
+                options={{
+                  legend: { display: true, position: "right" },
+                }}
+                data={data}
+              />
             </div>
           )}
         </div>
